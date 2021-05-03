@@ -14,8 +14,8 @@ import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
-import LoadingIndicator from '../../components/LoadingIndicator';
 import { makeStyles } from '@material-ui/core';
+import WalletPage from '../WalletPage';
 
 export default function App() {
   const classes = useStyles();
@@ -24,6 +24,7 @@ export default function App() {
     <div className={classes.container}>
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route path="/wallets" component={WalletPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
