@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
+import MyAppBar from '../../components/MyAppBar';
 import { fetchData } from '../../utils/apiClient';
 import messages from './messages';
 
@@ -21,8 +21,8 @@ export default function HomePage() {
     getData();
   }, [])
   return (
-    <h1>
-      <FormattedMessage {...messages.header} />
-    </h1>
+    <div>
+      <MyAppBar />
+    </div>
   );
 }

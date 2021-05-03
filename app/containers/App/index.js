@@ -14,6 +14,7 @@ import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
+import LoadingIndicator from '../../components/LoadingIndicator';
 
 export default function App() {
   return (
