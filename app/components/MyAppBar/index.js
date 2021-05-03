@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer',
   },
   existButton: {
-    fontSize: '2vw',
+    fontSize: '2rem',
     color: 'white',
     cursor: 'pointer',
     marginRight: '4%',

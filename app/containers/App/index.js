@@ -15,10 +15,13 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
 import LoadingIndicator from '../../components/LoadingIndicator';
+import { makeStyles } from '@material-ui/core';
 
 export default function App() {
+  const classes = useStyles();
+
   return (
-    <div>
+    <div className={classes.container}>
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route component={NotFoundPage} />
@@ -27,3 +30,10 @@ export default function App() {
     </div>
   );
 }
+
+const useStyles = makeStyles({
+  container: {
+    width: '100%',
+    height: '100%',
+  }
+})
