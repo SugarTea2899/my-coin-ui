@@ -16,6 +16,7 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import GlobalStyle from '../../global-styles';
 import { makeStyles } from '@material-ui/core';
 import WalletPage from '../WalletPage';
+import HistoryPage from '../HistoryPage';
 
 export default function App() {
   const classes = useStyles();
@@ -25,6 +26,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/wallets" component={WalletPage} />
+        <Route path="/history" component={HistoryPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
