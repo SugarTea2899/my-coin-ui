@@ -17,6 +17,7 @@ import GlobalStyle from '../../global-styles';
 import { makeStyles } from '@material-ui/core';
 import WalletPage from '../WalletPage';
 import HistoryPage from '../HistoryPage';
+import BlockPage from '../BlockPage';
 
 export default function App() {
   const classes = useStyles();
@@ -27,6 +28,7 @@ export default function App() {
         <Route exact path="/" component={HomePage} />
         <Route path="/wallets" component={WalletPage} />
         <Route path="/history" component={HistoryPage} />
+        <Route path="/blocks" component={BlockPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
