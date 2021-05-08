@@ -18,12 +18,16 @@ import { makeStyles } from '@material-ui/core';
 import WalletPage from '../WalletPage';
 import HistoryPage from '../HistoryPage';
 import BlockPage from '../BlockPage';
+import { useSelector } from 'react-redux';
+import LoadingIndicator from '../../components/LoadingIndicator';
 
 export default function App() {
   const classes = useStyles();
+  const globalState = useSelector(state => state.global);
 
   return (
     <div className={classes.container}>
+      {globalState.loading && <LoadingIndicator />}
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/wallets" component={WalletPage} />
@@ -40,5 +44,5 @@ const useStyles = makeStyles({
   container: {
     width: '100%',
     height: '100%',
-  }
-})
+  },
+});

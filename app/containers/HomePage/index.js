@@ -6,19 +6,31 @@
  */
 
 import { Grid, makeStyles } from '@material-ui/core';
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import MyAppBar from '../../components/MyAppBar';
-import { fetchData } from '../../utils/apiClient';
-import messages from './messages';
+import { useInjectReducer } from '../../utils/injectReducer';
 import ScrollableTabsButtonAuto from './TabSection';
+import reducer from './reducer';
+import saga from './saga';
+import { useInjectSaga } from '../../utils/injectSaga';
+import Alert from '../../components/Alert';
+import ConfirmAlert from '../../components/ConfirmAlert';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { makeSelectAlert, makeSelectConfirmAlert } from './selectors';
 
-export default function HomePage() {
+const key = 'home';
+
+export const HomePage = ({alert, confirmAlert}) => {
+  useInjectReducer({key, reducer});
+  useInjectSaga({key, saga});
+  
   const classes = useStyles();
 
   useEffect(() => {
     const getData = async () => {
-      const res = await fetchData('post', '/wallets');
-      console.log(res);
+
     };
 
     getData();
@@ -26,6 +38,8 @@ export default function HomePage() {
   return (
     <div className={classes.container}>
       <MyAppBar />
+      <ConfirmAlert {...confirmAlert} />
+      <Alert {...alert}/>
       <div className={classes.tabSection}>
         <Grid container>
           <Grid container item xs={4} />
@@ -53,3 +67,17 @@ const useStyles = makeStyles({
     height: '100%',
   },
 });
+
+const mapStateToProps = createStructuredSelector({
+  alert: makeSelectAlert(),
+  confirmAlert: makeSelectConfirmAlert(),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+);
+
+export default compose(
+  withConnect,
+  memo,
+)(HomePage);

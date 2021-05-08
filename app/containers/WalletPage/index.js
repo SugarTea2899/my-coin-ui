@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
 import MyAppBar from '../../components/MyAppBar';
 import ContactsIcon from '@material-ui/icons/Contacts';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import SendIcon from '@material-ui/icons/Send';
 import Card from './Card';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import reducer from './reducer';
+import saga from './saga';
+import { useInjectReducer } from '../../utils/injectReducer';
+import { useInjectSaga } from '../../utils/injectSaga';
 
-const WalletPage = () => {
+const key = 'wallet';
+
+export const WalletPage = ({address, balance}) => {
   const classes = useStyle();
+  useInjectReducer({key, reducer});
+  useInjectSaga({key, saga});
+  
   return (
     <div className={classes.container}>
       <MyAppBar />
@@ -53,4 +65,23 @@ const useStyle = makeStyles({
   },
 });
 
-export default WalletPage;
+const mapStateToProps = createStructuredSelector({
+
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+
+  }
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
+
+
+export default compose(
+  withConnect,
+  memo
+)(WalletPage);
