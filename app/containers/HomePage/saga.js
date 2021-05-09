@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { createWallet, getWallet } from '../../apis';
 import { fetchData } from '../../utils/apiClient';
 import { LOCAL_STORAGE_PRIVATE_KEY } from '../../utils/constants';
 import { copyToClipboard } from '../../utils/helpers';
@@ -11,7 +12,7 @@ import { ACCESS_WALLET, CREATE_PRIVATE_KEY } from './constants';
 function* createPrivateKey({ dispatch }) {
   try {
     yield put(setLoading(true));
-    const result = yield call(fetchData, 'post', '/wallets');
+    const result = yield call(createWallet);
     copyToClipboard(result);
 
     const alert = {
@@ -52,7 +53,7 @@ function* accessWallet({privateKey, dispatch}) {
 
   try {
     yield put(setLoading(true));
-    const result = yield call(fetchData, 'get', '/wallets', undefined, privateKey);
+    const result = yield call(getWallet, privateKey);
 
     localStorage.setItem(LOCAL_STORAGE_PRIVATE_KEY, privateKey);
     yield put(setLoading(false));

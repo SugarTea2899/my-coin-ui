@@ -1,8 +1,12 @@
 import React from 'react';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { getTime, hideCharacter } from '../../utils/helpers';
+import { WAITING_CONFIRM } from '../../utils/constants';
 
-const Transaction = () => {
+const Transaction = ({senderAddress, receiverAddress, amount, timeStamp, status, id}) => {
   const classes = useStyle();
+  const statusColor = status === WAITING_CONFIRM ? 'red' : '#66bb6a';
+  const statusText = status === WAITING_CONFIRM ? 'Waiting' : 'Success';
   return (
     <Grid container className={classes.container}>
       <Grid container item xs={3}>
@@ -12,28 +16,28 @@ const Transaction = () => {
           </div>
         </Grid>
         <Grid container item xs={8}>
-          <Typography className={classes.blueText}>1712785</Typography>
-          <Typography className={classes.grayText}>40 sec ago</Typography>
+          <Typography className={classes.blueText}>{`${hideCharacter(id)}`}</Typography>
+          <Typography className={classes.grayText}>{`${getTime(timeStamp)}`}</Typography>
         </Grid>
       </Grid>
       <Grid container item xs={4}>
         <Typography className={classes.blueText}>
-          <span style={{ color: 'black' }}>From</span> 0xc365c3315c1213...
+          <span style={{ color: 'black' }}>From</span> {`${hideCharacter(senderAddress)}`}
         </Typography>
         <Typography className={classes.blueText}>
-          <span style={{ color: 'black' }}>To</span> 0xc365c3315c1213...
+          <span style={{ color: 'black' }}>To</span> {`${hideCharacter(receiverAddress)}`}
         </Typography>
       </Grid>
       <Grid container item xs={2}>
         <div className={classes.status}>
-          <Typography className={classes.statusText}>Success</Typography>
+          <Typography className={classes.statusText} style={{color: statusColor}}>{statusText}</Typography>
         </div>
       </Grid>
       <Grid container item xs={3} justify='center' alignItems='center'>
         <Typography className={classes.blueText} style={{ color: 'black' }}>
           Amount:
         </Typography>
-        <Typography className={classes.blueText}>&nbsp;&nbsp;50</Typography>
+        <Typography className={classes.blueText}>&nbsp;&nbsp;{amount}</Typography>
       </Grid>
     </Grid>
   );
@@ -72,7 +76,6 @@ const useStyle = makeStyles({
     alignItems: 'center',
   },
   statusText: {
-    color: '#66bb6a',
     fontSize: '0.85rem',
     fontWeight: 'bolder',
   },

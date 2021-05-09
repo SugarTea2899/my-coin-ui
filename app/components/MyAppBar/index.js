@@ -2,22 +2,41 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { LOCAL_STORAGE_PRIVATE_KEY } from '../../utils/constants';
+import history from '../../utils/history';
 
 export default function MyAppBar() {
   const classes = useStyles();
+  const isAccessed = localStorage.getItem(LOCAL_STORAGE_PRIVATE_KEY) !== null;
 
+  const onLogOut = () => {
+    localStorage.removeItem(LOCAL_STORAGE_PRIVATE_KEY);
+    history.replace('/');
+  };
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" className={classes.logo}>
+          <p onClick={() => history.replace('/')} className={classes.logo}>
             My Wallet
-          </Typography>
+          </p>
           <div className={classes.rightSection}>
-            <Typography className={classes.title}>Transactions</Typography>
-            <ExitToAppIcon className={classes.existButton} />
+            {isAccessed && (
+              <>
+                <p className={classes.title}>Mining</p>
+                <p
+                  onClick={() => history.push('/history')}
+                  className={classes.title}
+                >
+                  History
+                </p>
+                <p className={classes.title}>Transaction</p>
+                <div onClick={onLogOut}>
+                  <ExitToAppIcon className={classes.existButton} />
+                </div>
+              </>
+            )}
           </div>
         </Toolbar>
       </AppBar>
@@ -42,18 +61,18 @@ const useStyles = makeStyles(theme => ({
     fontSize: '2rem',
     color: 'white',
     cursor: 'pointer',
-    marginRight: '4%',
   },
   logo: {
     fontFamily: 'Freckle',
     color: 'white',
     width: '100%',
-    fontSize: '1.8rem'
+    fontSize: '1.2rem',
+    cursor: 'pointer',
   },
   rightSection: {
     display: 'flex',
     width: '100%',
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 }));

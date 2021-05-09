@@ -1,7 +1,8 @@
 import React from 'react';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { getTime, hideCharacter } from '../../utils/helpers';
 
-const Block = () => {
+const Block = ({index, miner, data, timeStamp}) => {
   const classes = useStyle();
   return (
     <Grid container className={classes.container}>
@@ -12,15 +13,15 @@ const Block = () => {
           </div>
         </Grid>
         <Grid container item xs={8} direction="column">
-          <Typography className={classes.blueText}>1712785</Typography>
-          <Typography className={classes.grayText}>40 sec ago</Typography>
+          <Typography className={classes.blueText}>{index}</Typography>
+          <Typography className={classes.grayText}>{getTime(timeStamp)}</Typography>
         </Grid>
       </Grid>
       <Grid container item xs={3}>
         <Typography className={classes.blueText}>
-          <span style={{color: 'black'}}>Miner</span>  0xc365c3315c...
+          <span style={{color: 'black'}}>Miner</span>  {hideCharacter(miner)}
         </Typography>
-        <Typography className={classes.grayText}>201 transactions</Typography>
+        <Typography className={classes.grayText}>{`${data.length} transactions`}</Typography>
       </Grid>
       <Grid container item xs={6} justify='flex-end' alignItems='center'>
         <Typography className={classes.blueText} style={{color: 'black'}}>
@@ -37,8 +38,8 @@ const Block = () => {
 const useStyle = makeStyles({
   container: {
     marginBottom: '2%',
-    paddingBottom: '2%',
-    borderBottom: '1px solid #e0e0e0'
+    paddingBottom: '2.5%',
+    borderBottom: '1px solid #e0e0e0',
   },
   block: {
     width: '40px',

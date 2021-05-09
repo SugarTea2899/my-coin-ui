@@ -16,4 +16,5 @@ const makeSelectLoading = () =>
     selectGlobal,
     globalState => globalState.loading,
   );
+  
 export { makeSelectLocation, makeSelectLoading };

@@ -15,3 +15,7 @@ export const getBlocks = () => {
 export const getTransactions = () => {
   return fetchData('get', '/transactions');
 }
+
+export const getHistoryAPI = () => {
+  return fetchData('get', '/history');
+}

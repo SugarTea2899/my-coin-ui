@@ -13,4 +13,9 @@ const makeSelectBalance = () => createSelector(
   walletState => walletState.balance
 )
 
-export { makeSelectAddress, makeSelectBalance };
+const makeSelectTransaction = () => createSelector(
+  selectWallet,
+  walletState => walletState.transaction
+)
+
+export { makeSelectAddress, makeSelectBalance, makeSelectTransaction };

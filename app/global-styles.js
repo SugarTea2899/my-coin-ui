@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: #fafafa;
     height: 100%;
     width: 100%;
+    overflow: hidden;
   }
 
 `;

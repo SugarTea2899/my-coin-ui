@@ -19,22 +19,19 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { makeSelectAlert, makeSelectConfirmAlert } from './selectors';
+import { LOCAL_STORAGE_PRIVATE_KEY } from '../../utils/constants';
+import history from '../../utils/history';
 
 const key = 'home';
 
 export const HomePage = ({alert, confirmAlert}) => {
+  const classes = useStyles();
   useInjectReducer({key, reducer});
   useInjectSaga({key, saga});
+
+  if (localStorage.getItem(LOCAL_STORAGE_PRIVATE_KEY))
+    history.replace('/wallets');
   
-  const classes = useStyles();
-
-  useEffect(() => {
-    const getData = async () => {
-
-    };
-
-    getData();
-  }, []);
   return (
     <div className={classes.container}>
       <MyAppBar />
