@@ -24,7 +24,7 @@ const MyList = ({ title, item, onClick }) => {
       </CardContent>
       <CardActions>
         <ColorButton onClick={onClick} fullWidth className={classes.viewAll}>
-          View All Transactions
+          View All
         </ColorButton>
       </CardActions>
     </Card>

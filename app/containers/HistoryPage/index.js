@@ -45,10 +45,15 @@ export const HistoryPage = ({ blocks, transactions, onLoad }) => {
       <MyAppBar />
       <Grid container spacing={5} style={{ padding: '3%' }}>
         <Grid container item xs={6}>
-          <MyList onClick={() => history.push('/blocks')} title="Latest Blocks" item={getBlocksItem(blocks)} />
+          <MyList
+            onClick={() => history.push('/blocks')}
+            title="Latest Blocks"
+            item={getBlocksItem(blocks)}
+          />
         </Grid>
         <Grid container item xs={6} alignItems="flex-start">
           <MyList
+            onClick={() => history.push('/transactions')}
             title="Latest Transactions"
             item={getTransactionsItem(transactions)}
           />

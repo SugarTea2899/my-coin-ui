@@ -20,6 +20,7 @@ import HistoryPage from '../HistoryPage';
 import BlockPage from '../BlockPage';
 import { useSelector } from 'react-redux';
 import LoadingIndicator from '../../components/LoadingIndicator';
+import TransactionPage from '../TransactionPage';
 
 export default function App() {
   const classes = useStyles();
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/wallets" component={WalletPage} />
         <Route path="/history" component={HistoryPage} />
         <Route path="/blocks" component={BlockPage} />
+        <Route path='/transactions' component={TransactionPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
