@@ -14,6 +14,6 @@ export const getTime = (time) => {
   return `${Math.round(diff / 3600)} hours ago`;  
 }
 
-export const hideCharacter = (str) => {
-  return str.substring(0, 10) + '...';
+export const hideCharacter = (str, size = 10) => {
+  return str.substring(0, size) + (str.length > size ? '...' : '');
 }

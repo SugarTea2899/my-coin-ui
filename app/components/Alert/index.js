@@ -10,6 +10,7 @@ const Alert = ({open, title, content, onClose}) => {
     <Dialog
       open={open}
       fullWidth={true}
+      onClose={() => console.log('a')}
     >
       <DialogTitle>
         {title}

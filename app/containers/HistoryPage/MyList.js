@@ -19,14 +19,14 @@ const MyList = ({ title, item, onClick }) => {
           root: classes.headerRoot,
         }}
       />
-      <CardContent>
-        {item}
-      </CardContent>
-      <CardActions>
-        <ColorButton onClick={onClick} fullWidth className={classes.viewAll}>
-          View All
-        </ColorButton>
-      </CardActions>
+      <CardContent className={classes.content}>{item}</CardContent>
+      {onClick && (
+        <CardActions>
+          <ColorButton onClick={onClick} fullWidth className={classes.viewAll}>
+            View All
+          </ColorButton>
+        </CardActions>
+      )}
     </Card>
   );
 };
@@ -45,6 +45,10 @@ const useStyle = makeStyles({
   headerRoot: {
     borderBottom: '1px #e0e0e0 solid',
   },
+  content: {
+    maxHeight: '400px',
+    overflow: 'auto'
+  }
 });
 
 export default MyList;

@@ -24,14 +24,12 @@ export default function MyAppBar() {
           <div className={classes.rightSection}>
             {isAccessed && (
               <>
-                <p className={classes.title}>Mining</p>
                 <p
                   onClick={() => history.push('/history')}
                   className={classes.title}
                 >
                   History
                 </p>
-                <p className={classes.title}>Transaction</p>
                 <div onClick={onLogOut}>
                   <ExitToAppIcon className={classes.existButton} />
                 </div>

@@ -23,7 +23,7 @@ export const BlockPage = ({ blocks }) => {
   const classes = useStyle();
   const [page, setPage] = useState(0);
   const [items, setItems] = useState([]);
-  const PAGE_SIZE = 2;
+  const PAGE_SIZE = 8;
 
   const onChangePage = (e, newPage) => {
     setPage(newPage);

@@ -10,7 +10,3 @@ export const accessWallet = (privateKey, dispatch) => ({
   privateKey,
   dispatch
 })
-export const updateHomeAlert = (alert) => ({
-  type: UPDATE_HOME_ALERT,
-  alert,
-});

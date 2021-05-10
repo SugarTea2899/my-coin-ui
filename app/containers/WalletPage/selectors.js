@@ -3,19 +3,33 @@ import { initialState } from './reducer';
 
 const selectWallet = state => state.wallet || initialState;
 
-const makeSelectAddress = () => createSelector(
-  selectWallet,
-  walletState => walletState.address
-)
+const makeSelectAddress = () =>
+  createSelector(
+    selectWallet,
+    walletState => walletState.address,
+  );
 
-const makeSelectBalance = () => createSelector(
-  selectWallet,
-  walletState => walletState.balance
-)
+const makeSelectBalance = () =>
+  createSelector(
+    selectWallet,
+    walletState => walletState.balance,
+  );
 
-const makeSelectTransaction = () => createSelector(
-  selectWallet,
-  walletState => walletState.transaction
-)
+const makeSelectTransaction = () =>
+  createSelector(
+    selectWallet,
+    walletState => walletState.transaction,
+  );
 
-export { makeSelectAddress, makeSelectBalance, makeSelectTransaction };
+const makeSelectMyTransactions = () =>
+  createSelector(
+    selectWallet,
+    walletState => walletState.myTransactions,
+  );
+
+export {
+  makeSelectAddress,
+  makeSelectBalance,
+  makeSelectTransaction,
+  makeSelectMyTransactions,
+};

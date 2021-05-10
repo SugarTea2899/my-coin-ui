@@ -16,5 +16,14 @@ const makeSelectLoading = () =>
     selectGlobal,
     globalState => globalState.loading,
   );
-  
-export { makeSelectLocation, makeSelectLoading };
+
+const makeSelectAlert = () => createSelector(
+  selectGlobal,
+  globalState => globalState.alert
+)
+
+const makeSelectConfirmAlert = () => createSelector(
+  selectGlobal,
+  globalState => globalState.confirmAlert
+)
+export { makeSelectLocation, makeSelectLoading, makeSelectAlert, makeSelectConfirmAlert };

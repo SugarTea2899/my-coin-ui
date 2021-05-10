@@ -23,17 +23,19 @@ export const HistoryPage = ({ blocks, transactions, onLoad }) => {
   useInjectSaga({ key, saga });
 
   const getBlocksItem = blocks => {
-    return blocks
+    const _blocks = [...blocks];
+    return _blocks
       .reverse()
       .filter((value, index) => index < 5)
       .map((block, index) => <Block key={index} {...block} />);
   };
 
   const getTransactionsItem = transactions => {
-    return transactions
+    const _transactions = [...transactions];
+    return _transactions
       .reverse()
       .filter((value, index) => index < 5)
-      .map(transaction => <Transaction {...transaction} />);
+      .map((transaction, index) => <Transaction key={index} {...transaction} />);
   };
 
   useEffect(() => {
@@ -44,7 +46,7 @@ export const HistoryPage = ({ blocks, transactions, onLoad }) => {
     <div className={classes.container}>
       <MyAppBar />
       <Grid container spacing={5} style={{ padding: '3%' }}>
-        <Grid container item xs={6}>
+        <Grid container item xs={6} alignItems="flex-start">
           <MyList
             onClick={() => history.push('/blocks')}
             title="Latest Blocks"

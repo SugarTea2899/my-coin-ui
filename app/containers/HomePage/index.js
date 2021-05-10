@@ -24,7 +24,7 @@ import history from '../../utils/history';
 
 const key = 'home';
 
-export const HomePage = ({alert, confirmAlert}) => {
+export const HomePage = () => {
   const classes = useStyles();
   useInjectReducer({key, reducer});
   useInjectSaga({key, saga});
@@ -35,8 +35,6 @@ export const HomePage = ({alert, confirmAlert}) => {
   return (
     <div className={classes.container}>
       <MyAppBar />
-      <ConfirmAlert {...confirmAlert} />
-      <Alert {...alert}/>
       <div className={classes.tabSection}>
         <Grid container>
           <Grid container item xs={4} />
@@ -66,8 +64,7 @@ const useStyles = makeStyles({
 });
 
 const mapStateToProps = createStructuredSelector({
-  alert: makeSelectAlert(),
-  confirmAlert: makeSelectConfirmAlert(),
+
 });
 
 const withConnect = connect(

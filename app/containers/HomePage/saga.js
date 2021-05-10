@@ -1,12 +1,10 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { createWallet, getWallet } from '../../apis';
-import { fetchData } from '../../utils/apiClient';
 import { LOCAL_STORAGE_PRIVATE_KEY } from '../../utils/constants';
 import { copyToClipboard } from '../../utils/helpers';
 import history from '../../utils/history';
-import { setLoading } from '../App/actions';
+import { setLoading, updateAlert } from '../App/actions';
 import { updateWallet } from '../WalletPage/actions';
-import { updateHomeAlert } from './actions';
 import { ACCESS_WALLET, CREATE_PRIVATE_KEY } from './constants';
 
 function* createPrivateKey({ dispatch }) {
@@ -20,21 +18,21 @@ function* createPrivateKey({ dispatch }) {
       title: 'Alert',
       content:
         'Your private key was copied to clip board.\nPlease store it carefully.',
-      onClose: () => dispatch(updateHomeAlert({ open: false })),
+      onClose: () => dispatch(updateAlert({ open: false })),
     };
 
     yield put(setLoading(false));
-    yield put(updateHomeAlert(alert));
+    yield put(updateAlert(alert));
   } catch (error) {
     const alert = {
       open: true,
       title: 'Alert',
       content: `${error.message}`,
-      onClose: () => dispatch(updateHomeAlert({ open: false })),
+      onClose: () => dispatch(updateAlert({ open: false })),
     };
 
     yield put(setLoading(false));
-    yield put(updateHomeAlert(alert));
+    yield put(updateAlert(alert));
   }
 }
 
@@ -44,10 +42,10 @@ function* accessWallet({privateKey, dispatch}) {
       open: true,
       title: 'Alert',
       content: `Your private key is wrong`,
-      onClose: () => dispatch(updateHomeAlert({ open: false })),
+      onClose: () => dispatch(updateAlert({ open: false })),
     };
 
-    yield put(updateHomeAlert(alert));
+    yield put(updateAlert(alert));
     return;
   }
 
@@ -65,11 +63,11 @@ function* accessWallet({privateKey, dispatch}) {
       open: true,
       title: 'Alert',
       content: `${error.message}`,
-      onClose: () => dispatch(updateHomeAlert({ open: false })),
+      onClose: () => dispatch(updateAlert({ open: false })),
     };
 
     yield put(setLoading(false));
-    yield put(updateHomeAlert(alert));
+    yield put(updateAlert(alert));
   }
   
 

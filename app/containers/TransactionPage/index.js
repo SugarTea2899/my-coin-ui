@@ -24,7 +24,7 @@ export const TransactionPage = ({ transactions }) => {
   const classes = useStyle();
   const [page, setPage] = useState(0);
   const [items, setItems] = useState([]);
-  const PAGE_SIZE = 2;
+  const PAGE_SIZE = 8;
 
   const onChangePage = (e, newPage) => {
     setPage(newPage);
@@ -85,6 +85,7 @@ export const TransactionPage = ({ transactions }) => {
                       style={{
                         color:
                           item.status === WAITING_CONFIRM ? 'red' : '#66bb6a',
+                        fontWeight: 'bold'
                       }}
                     >{`${
                       item.status === WAITING_CONFIRM ? 'Waiting' : 'Success'

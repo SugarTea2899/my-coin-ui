@@ -15,12 +15,12 @@ const Transaction = ({senderAddress, receiverAddress, amount, timeStamp, status,
             <Typography className={classes.Tx}>Tx</Typography>
           </div>
         </Grid>
-        <Grid container item xs={8}>
+        <Grid container item xs={8} direction='column'>
           <Typography className={classes.blueText}>{`${hideCharacter(id)}`}</Typography>
           <Typography className={classes.grayText}>{`${getTime(timeStamp)}`}</Typography>
         </Grid>
       </Grid>
-      <Grid container item xs={4}>
+      <Grid container item xs={4} direction='column'>
         <Typography className={classes.blueText}>
           <span style={{ color: 'black' }}>From</span> {`${hideCharacter(senderAddress)}`}
         </Typography>
