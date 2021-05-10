@@ -27,9 +27,16 @@ const makeSelectMyTransactions = () =>
     walletState => walletState.myTransactions,
   );
 
+const makeSelectMyTransaction = id =>
+  createSelector(
+    selectWallet,
+    walletState => walletState.myTransactions.filter((tx) => tx.id === id)[0],
+  );
+
 export {
   makeSelectAddress,
   makeSelectBalance,
   makeSelectTransaction,
   makeSelectMyTransactions,
+  makeSelectMyTransaction
 };

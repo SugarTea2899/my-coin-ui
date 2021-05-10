@@ -1,8 +1,9 @@
 import React from 'react';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { getTime, hideCharacter } from '../../utils/helpers';
+import { Link } from 'react-router-dom';
 
-const Block = ({index, miner, data, timeStamp}) => {
+const Block = ({ index, miner, data, timeStamp }) => {
   const classes = useStyle();
   return (
     <Grid container className={classes.container}>
@@ -13,23 +14,27 @@ const Block = ({index, miner, data, timeStamp}) => {
           </div>
         </Grid>
         <Grid container item xs={8} direction="column">
-          <Typography className={classes.blueText}>{index}</Typography>
-          <Typography className={classes.grayText}>{getTime(timeStamp)}</Typography>
+          <Link style={{textDecoration: 'none'}} to={`/blocks/${index}`}>
+            <Typography className={classes.blueText}>{index}</Typography>
+          </Link>
+          <Typography className={classes.grayText}>
+            {getTime(timeStamp)}
+          </Typography>
         </Grid>
       </Grid>
       <Grid container item xs={3}>
         <Typography className={classes.blueText}>
-          <span style={{color: 'black'}}>Miner</span>  {hideCharacter(miner)}
+          <span style={{ color: 'black' }}>Miner</span> {hideCharacter(miner)}
         </Typography>
-        <Typography className={classes.grayText}>{`${data.length} transactions`}</Typography>
+        <Typography className={classes.grayText}>{`${
+          data.length
+        } transactions`}</Typography>
       </Grid>
-      <Grid container item xs={6} justify='flex-end' alignItems='center'>
-        <Typography className={classes.blueText} style={{color: 'black'}}>
-          Reward: 
+      <Grid container item xs={6} justify="flex-end" alignItems="center">
+        <Typography className={classes.blueText} style={{ color: 'black' }}>
+          Reward:
         </Typography>
-        <Typography className={classes.blueText}>
-          &nbsp;&nbsp;50
-        </Typography>
+        <Typography className={classes.blueText}>&nbsp;&nbsp;50</Typography>
       </Grid>
     </Grid>
   );

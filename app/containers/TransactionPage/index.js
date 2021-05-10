@@ -14,11 +14,12 @@ import {
 } from '@material-ui/core';
 import MyAppBar from '../../components/MyAppBar';
 import { createStructuredSelector } from 'reselect';
-import { makeSelectTransaction } from '../HistoryPage/selectors';
+import { makeSelectTransactions } from '../HistoryPage/selectors';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getTime, hideCharacter } from '../../utils/helpers';
 import { WAITING_CONFIRM } from '../../utils/constants';
+import { Link } from 'react-router-dom';
 
 export const TransactionPage = ({ transactions }) => {
   const classes = useStyle();
@@ -60,9 +61,15 @@ export const TransactionPage = ({ transactions }) => {
               return (
                 <TableRow key={index}>
                   <StyledTableCell>
-                    <span style={{ color: '#2196f3' }}>
-                      {hideCharacter(item.id)}
-                    </span>
+                    <Link
+                      style={{ textDecoration: 'none' }}
+                      to={`/transactions/${item.id}`}
+                    >
+                      {' '}
+                      <span style={{ color: '#2196f3' }}>
+                        {hideCharacter(item.id)}
+                      </span>
+                    </Link>
                   </StyledTableCell>
                   <StyledTableCell>
                     <span style={{ color: '#2196f3' }}>{item.block}</span>
@@ -85,7 +92,7 @@ export const TransactionPage = ({ transactions }) => {
                       style={{
                         color:
                           item.status === WAITING_CONFIRM ? 'red' : '#66bb6a',
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
                       }}
                     >{`${
                       item.status === WAITING_CONFIRM ? 'Waiting' : 'Success'
@@ -135,7 +142,7 @@ const StyledTableCell = withStyles(theme => ({
 }))(TableCell);
 
 const mapStateToProps = createStructuredSelector({
-  transactions: makeSelectTransaction(),
+  transactions: makeSelectTransactions(),
 });
 
 const withConnect = connect(

@@ -9,10 +9,21 @@ const makeSelectBlocks = () =>
     historyState => historyState.blocks,
   );
 
-const makeSelectTransaction = () =>
+const makeSelectBlock = index =>
+  createSelector(
+    selectHistory,
+    historyState => historyState.blocks[index],
+  );
+
+const makeSelectTransactions = () =>
   createSelector(
     selectHistory,
     historyState => historyState.transactions,
   );
 
-export { makeSelectBlocks, makeSelectTransaction };
+const makeSelectTransaction = (id) => createSelector(
+  selectHistory,
+  historyState => historyState.transactions.filter((tx) => tx.id === id)[0]
+)
+
+export { makeSelectBlocks, makeSelectBlock,  makeSelectTransactions, makeSelectTransaction };

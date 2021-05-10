@@ -12,7 +12,7 @@ import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import Block from './Block';
 import Transaction from './Transaction';
-import { makeSelectBlocks, makeSelectTransaction } from './selectors';
+import { makeSelectBlocks, makeSelectTransactions } from './selectors';
 import history from '../../utils/history';
 
 const key = 'history';
@@ -74,7 +74,7 @@ const useStyle = makeStyles({
 
 const mapStateToProps = createStructuredSelector({
   blocks: makeSelectBlocks(),
-  transactions: makeSelectTransaction(),
+  transactions: makeSelectTransactions(),
 });
 
 const mapDispatchToProps = dispatch => {

@@ -16,6 +16,13 @@ export const getTransactions = () => {
   return fetchData('get', '/transactions');
 };
 
+export const sendTransactionAPI = (address, amount, privateKey) => {
+  const data = {
+    receiptAddress: address,
+    amount,
+  }
+  return fetchData('post', '/transactions', data, privateKey)
+}
 export const getHistoryAPI = () => {
   return fetchData('get', '/history');
 };

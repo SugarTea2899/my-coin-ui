@@ -8,14 +8,19 @@ import {
 } from '@material-ui/core';
 import MyAppBar from '../../components/MyAppBar';
 import Information from '../../components/Infomation';
+import { useSelector } from 'react-redux';
+import { makeSelectBlock } from '../HistoryPage/selectors';
+import { getTime } from '../../utils/helpers';
 
-const BlockDetailPage = () => {
+const BlockDetailPage = ({match}) => {
   const classes = useStyle();
+
+  const block = useSelector(makeSelectBlock(match.params.index));
   return (
     <div className={classes.container}>
       <MyAppBar />
       <Typography className={classes.blockTitle} variant="h5">
-        {`Block `} <span style={{ color: 'gray' }}>&nbsp;#50</span>
+        {`Block `} <span style={{ color: 'gray' }}>&nbsp;#{block.index}</span>
       </Typography>
       <Card className={classes.cardContainer}>
         <CardHeader
@@ -26,16 +31,16 @@ const BlockDetailPage = () => {
           }}
         />
         <CardContent style={{ padding: '0%' }}>
-          <Information title="Block:" content="content" markBlue />
-          <Information title="Timestamp:" content="content" />
-          <Information title="Transactions:" content="content" />
+          <Information title="Block:" content={block.index} markBlue />
+          <Information title="Timestamp:" content={getTime(block.timeStamp)} />
+          <Information title="Transactions:" content={block.data.length} />
           <Information
             title="Miner:"
-            content="04020198b0836588d239b3ed8f0c9b499493c40f5adac89034e592b72e4addea9b6d3c69e21f924acf2f95df98dbe6a4df9f6d328dda7ac46697f8fe5d502dfef4"
+            content={block.miner}
             markBlue
           />
-          <Information title="Block Reward:" content="content" />
-          <Information title="Difficulty:" content="content" />
+          <Information title="Block Reward:" content="50" />
+          <Information title="Difficulty:" content={block.difficultly}/>
         </CardContent>
       </Card>
     </div>

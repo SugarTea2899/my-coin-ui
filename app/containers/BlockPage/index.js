@@ -18,6 +18,7 @@ import { makeSelectBlocks } from '../HistoryPage/selectors';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getTime, hideCharacter } from '../../utils/helpers';
+import { Link } from 'react-router-dom';
 
 export const BlockPage = ({ blocks }) => {
   const classes = useStyle();
@@ -59,12 +60,18 @@ export const BlockPage = ({ blocks }) => {
               return (
                 <TableRow key={index}>
                   <StyledTableCell>
-                    <span style={{ color: '#2196f3' }}>{item.index}</span>
+                    <Link style={{ textDecoration: 'none' }} to={`/blocks/${index}`}>
+                      <span style={{ color: '#2196f3' }}>{item.index}</span>
+                    </Link>
                   </StyledTableCell>
-                  <StyledTableCell>{`${getTime(item.timeStamp)}`}</StyledTableCell>
+                  <StyledTableCell>{`${getTime(
+                    item.timeStamp,
+                  )}`}</StyledTableCell>
                   <StyledTableCell>{item.data.length}</StyledTableCell>
                   <StyledTableCell>
-                    <span style={{ color: '#2196f3' }}>{`${hideCharacter(item.miner)}`}</span>
+                    <span style={{ color: '#2196f3' }}>{`${hideCharacter(
+                      item.miner,
+                    )}`}</span>
                   </StyledTableCell>
                   <StyledTableCell>50</StyledTableCell>
                 </TableRow>

@@ -6,24 +6,33 @@ import {
   MINING_BLOCK,
   MINING_BLOCK_CONFIRM,
   OPEN_TRANSACTION,
+  SEND_TRANSACTION,
 } from './constants';
 import * as api from '../../apis';
-import { miningBlock, updateMyTransactions, updateTransaction, updateWallet } from './actions';
+import {
+  miningBlock,
+  sendTransaction,
+  updateMyTransactions,
+  updateTransaction,
+  updateWallet,
+} from './actions';
 import { LOCAL_STORAGE_PRIVATE_KEY } from '../../utils/constants';
 import { copyToClipboard } from '../../utils/helpers';
 import { setLoading, updateAlert, updateConfirmAlert } from '../App/actions';
 import { Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { getHistory } from '../HistoryPage/actions';
 
-function* getWallet() {
+function* getWalletSaga() {
   try {
     const privateKey = localStorage.getItem(LOCAL_STORAGE_PRIVATE_KEY);
     const resultWallet = yield call(api.getWallet, privateKey);
     const resultTransaction = yield call(api.getMyTransactionAPI, privateKey);
 
     yield put(updateMyTransactions(resultTransaction.payload.transactions));
-    yield put(updateWallet(resultWallet.payload.address, resultWallet.payload.balance));
-
+    yield put(
+      updateWallet(resultWallet.payload.address, resultWallet.payload.balance),
+    );
   } catch (error) {
     console.log(error.message);
   }
@@ -33,12 +42,41 @@ function* openTransaction({ dispatch }) {
   try {
     const transactionDialog = {
       open: true,
-      onSend: () => {},
+      onSend: (address, amount) => {
+        dispatch(sendTransaction(address, amount, dispatch));
+        dispatch(updateTransaction({ open: false }));
+      },
       onClose: () => dispatch(updateTransaction({ open: false })),
     };
 
     yield put(updateTransaction(transactionDialog));
   } catch (error) {
+    console.log(error.message);
+  }
+}
+
+function* sendTransactionSaga({ address, amount, dispatch }) {
+  try {
+    yield put(setLoading(true));
+
+    yield call(
+      api.sendTransactionAPI,
+      address,
+      amount,
+      localStorage.getItem(LOCAL_STORAGE_PRIVATE_KEY),
+    );
+
+    const alert = {
+      open: true,
+      title: 'Alert',
+      content: `Send transaction successfully.`,
+      onClose: () => dispatch(updateAlert({ open: false })),
+    };
+
+    yield put(updateAlert(alert));
+    yield put(setLoading(false));
+  } catch (error) {
+    yield put(setLoading(false));
     console.log(error.message);
   }
 }
@@ -88,15 +126,23 @@ function* miningBlockSaga({ dispatch }) {
       localStorage.getItem(LOCAL_STORAGE_PRIVATE_KEY),
     );
     const content = (
-      <Typography>
-        New block was found, you have rewarded 50 coin. Check it{' '}
-        <Link
-          onClick={() => dispatch(updateAlert({ open: false }))}
-          to={`/blocks/${result.payload.newBlock.index}`}
-        >
-          here.
-        </Link>
-      </Typography>
+      <>
+        <Typography>
+          {`New block was found. Block index: ${result.payload.newBlock.index}.`}
+        </Typography>
+        <Typography>
+          You have been rewarded 50 coin.
+        </Typography>
+        <Typography>
+          Check it{' '}
+          <Link
+            onClick={() => dispatch(updateAlert({ open: false }))}
+            to={`/history`}
+          >
+            here.
+          </Link>
+        </Typography>
+      </>
     );
     const alert = {
       open: true,
@@ -114,9 +160,10 @@ function* miningBlockSaga({ dispatch }) {
 }
 
 export default function* walletSaga() {
-  yield takeLatest(GET_WALLET, getWallet);
+  yield takeLatest(GET_WALLET, getWalletSaga);
   yield takeLatest(OPEN_TRANSACTION, openTransaction);
   yield takeLatest(COPY_ADDRESS, copyAddress);
   yield takeLatest(MINING_BLOCK_CONFIRM, miningBlockConfirm);
   yield takeLatest(MINING_BLOCK, miningBlockSaga);
+  yield takeLatest(SEND_TRANSACTION, sendTransactionSaga);
 }

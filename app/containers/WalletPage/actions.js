@@ -8,6 +8,7 @@ import {
   UPDATE_TRANSACTION,
   UPDATE_WALLET,
   UPDATE_MY_TRANSACTIONS,
+  SEND_TRANSACTION,
 } from './constants';
 
 export const updateWallet = (address, balance) => ({
@@ -55,4 +56,12 @@ export const miningBlock = (dispatch) => ({
 export const updateMyTransactions = (myTransactions) => ({
   type: UPDATE_MY_TRANSACTIONS,
   myTransactions
+})
+
+
+export const sendTransaction = (address, amount, dispatch) => ({
+  type: SEND_TRANSACTION,
+  address,
+  amount,
+  dispatch
 })

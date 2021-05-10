@@ -27,6 +27,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { makeSelectAlert, makeSelectConfirmAlert } from './selectors';
 import BlockDetailPage from '../BlockDetailPage';
+import TransactionDetailPage from '../TransactionDetailPage';
 
 export function App({alert, confirmAlert}) {
   const classes = useStyles();
@@ -43,6 +44,7 @@ export function App({alert, confirmAlert}) {
         <Route path="/history" component={HistoryPage} />
         <Route path="/blocks/:index" component={BlockDetailPage}/>
         <Route path="/blocks" component={BlockPage} />
+        <Route path='/transactions/:id' component={TransactionDetailPage} />
         <Route path='/transactions' component={TransactionPage} />
         <Route component={NotFoundPage} />
       </Switch>

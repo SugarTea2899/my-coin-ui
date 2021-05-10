@@ -6,6 +6,8 @@ export const UPDATE_TRANSACTION = 'wallet/UPDATE_TRANSACTION';
 
 export const OPEN_TRANSACTION = 'wallet/OPEN_TRANSACTION';
 
+export const SEND_TRANSACTION = 'wallet/SEND_TRANSACTION';
+
 export const COPY_ADDRESS = 'wallet/COPY_ADDRESS';
 
 export const MINING_BLOCK = 'wallet/MINING_BLOCK';

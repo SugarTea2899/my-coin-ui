@@ -1,10 +1,11 @@
 import React from 'react';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 
-const Information = ({ title, content, markBlue = false }) => {
+const Information = ({ title, content, markBlue = false, customColor }) => {
   const classes = useStyle();
   let contentColor = markBlue ? '#2196f3' : 'black';
-
+  contentColor = customColor || contentColor;
+  
   return (
     <Grid container className={classes.container} >
       <Grid container item xs={2} alignItems="center" alignContent='center'>
