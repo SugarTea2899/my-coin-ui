@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { ColorButton } from '../../components/ColorButton';
 
-const MyList = ({ title, item }) => {
+const MyList = ({ title, item, onClick }) => {
   const classes = useStyle();
   return (
     <Card className={classes.container}>
@@ -23,7 +23,7 @@ const MyList = ({ title, item }) => {
         {item}
       </CardContent>
       <CardActions>
-        <ColorButton fullWidth className={classes.viewAll}>
+        <ColorButton onClick={onClick} fullWidth className={classes.viewAll}>
           View All Transactions
         </ColorButton>
       </CardActions>

@@ -13,35 +13,45 @@ import { useInjectSaga } from '../../utils/injectSaga';
 import Block from './Block';
 import Transaction from './Transaction';
 import { makeSelectBlocks, makeSelectTransaction } from './selectors';
+import history from '../../utils/history';
 
 const key = 'history';
 
-export const HistoryPage = ({blocks, transactions, onLoad}) => {
+export const HistoryPage = ({ blocks, transactions, onLoad }) => {
   const classes = useStyle();
-  useInjectReducer({key, reducer});
-  useInjectSaga({key, saga});
+  useInjectReducer({ key, reducer });
+  useInjectSaga({ key, saga });
 
-  const getBlocksItem = (blocks) => {
-    return blocks.reverse().map((block, index) => <Block key={index} {...block} />);
-  }
+  const getBlocksItem = blocks => {
+    return blocks
+      .reverse()
+      .filter((value, index) => index < 5)
+      .map((block, index) => <Block key={index} {...block} />);
+  };
 
-  const getTransactionsItem = (transactions) => {
-    return transactions.reverse().map((transaction) => <Transaction {...transaction} />);
-  }
+  const getTransactionsItem = transactions => {
+    return transactions
+      .reverse()
+      .filter((value, index) => index < 5)
+      .map(transaction => <Transaction {...transaction} />);
+  };
 
   useEffect(() => {
     onLoad();
-  }, [])
+  }, []);
 
   return (
     <div className={classes.container}>
       <MyAppBar />
-      <Grid container spacing={5} style={{ padding: '3%' }} >
+      <Grid container spacing={5} style={{ padding: '3%' }}>
         <Grid container item xs={6}>
-          <MyList title='Latest Blocks' item={getBlocksItem(blocks)} />
+          <MyList onClick={() => history.push('/blocks')} title="Latest Blocks" item={getBlocksItem(blocks)} />
         </Grid>
-        <Grid container item xs={6} alignItems='flex-start'>
-          <MyList title='Latest Transactions' item={getTransactionsItem(transactions)} />
+        <Grid container item xs={6} alignItems="flex-start">
+          <MyList
+            title="Latest Transactions"
+            item={getTransactionsItem(transactions)}
+          />
         </Grid>
       </Grid>
     </div>
@@ -57,22 +67,21 @@ const useStyle = makeStyles({
 
 const mapStateToProps = createStructuredSelector({
   blocks: makeSelectBlocks(),
-  transactions: makeSelectTransaction()
+  transactions: makeSelectTransaction(),
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLoad: () => dispatch(getHistory())
-  }
-}
+    onLoad: () => dispatch(getHistory()),
+  };
+};
 
 const withConnect = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 );
-
 
 export default compose(
   withConnect,
-  memo
+  memo,
 )(HistoryPage);

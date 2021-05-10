@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import {
   makeStyles,
   Paper,
@@ -13,9 +13,30 @@ import {
   withStyles,
 } from '@material-ui/core';
 import MyAppBar from '../../components/MyAppBar';
+import { createStructuredSelector } from 'reselect';
+import { makeSelectBlocks } from '../HistoryPage/selectors';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { getTime, hideCharacter } from '../../utils/helpers';
 
-const BlockPage = () => {
+export const BlockPage = ({ blocks }) => {
   const classes = useStyle();
+  const [page, setPage] = useState(0);
+  const [items, setItems] = useState([]);
+  const PAGE_SIZE = 2;
+
+  const onChangePage = (e, newPage) => {
+    setPage(newPage);
+  };
+
+  useEffect(() => {
+    const pagingBlocks = (block, index) => {
+      const startIndex = page * PAGE_SIZE;
+      return index >= startIndex && index < startIndex + PAGE_SIZE;
+    };
+    setItems(blocks.filter(pagingBlocks));
+  }, [page]);
+
   return (
     <div className={classes.container}>
       <MyAppBar />
@@ -34,31 +55,35 @@ const BlockPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <StyledTableCell>
-                <span style={{ color: '#2196f3' }}>1</span>
-              </StyledTableCell>
-              <StyledTableCell>40 sec</StyledTableCell>
-              <StyledTableCell>210</StyledTableCell>
-              <StyledTableCell>
-                <span style={{ color: '#2196f3' }}>0x55555555</span>
-              </StyledTableCell>
-              <StyledTableCell>50</StyledTableCell>
-            </TableRow>
+            {items.map((item, index) => {
+              return (
+                <TableRow key={index}>
+                  <StyledTableCell>
+                    <span style={{ color: '#2196f3' }}>{item.index}</span>
+                  </StyledTableCell>
+                  <StyledTableCell>{`${getTime(item.timeStamp)}`}</StyledTableCell>
+                  <StyledTableCell>{item.data.length}</StyledTableCell>
+                  <StyledTableCell>
+                    <span style={{ color: '#2196f3' }}>{`${hideCharacter(item.miner)}`}</span>
+                  </StyledTableCell>
+                  <StyledTableCell>50</StyledTableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[10]}
+                rowsPerPageOptions={[PAGE_SIZE]}
                 colSpan={5}
-                count={100}
-                page={0}
-                rowsPerPage={10}
+                count={blocks.length}
+                page={page}
+                rowsPerPage={PAGE_SIZE}
                 SelectProps={{
                   inputProps: { 'aria-label': 'rows per page' },
                   native: true,
                 }}
-                onChangePage={(event, newPage) => { console.log(newPage);}}
+                onChangePage={onChangePage}
               />
             </TableRow>
           </TableFooter>
@@ -85,4 +110,16 @@ const StyledTableCell = withStyles(theme => ({
   },
 }))(TableCell);
 
-export default BlockPage;
+const mapStateToProps = createStructuredSelector({
+  blocks: makeSelectBlocks(),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  undefined,
+);
+
+export default compose(
+  withConnect,
+  memo,
+)(BlockPage);
