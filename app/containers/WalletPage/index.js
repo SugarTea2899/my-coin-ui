@@ -31,6 +31,7 @@ import CreateTransaction from './CreateTransaction';
 import { copyToClipboard } from '../../utils/helpers';
 import MyList from '../HistoryPage/MyList';
 import Transaction from '../HistoryPage/Transaction';
+import socket from '../../utils/socketClient';
 
 const key = 'wallet';
 

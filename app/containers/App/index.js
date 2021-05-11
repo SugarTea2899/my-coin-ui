@@ -7,7 +7,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
@@ -18,7 +18,7 @@ import { makeStyles } from '@material-ui/core';
 import WalletPage from '../WalletPage';
 import HistoryPage from '../HistoryPage';
 import BlockPage from '../BlockPage';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import TransactionPage from '../TransactionPage';
 import Alert from '../../components/Alert';
@@ -28,10 +28,31 @@ import { compose } from 'redux';
 import { makeSelectAlert, makeSelectConfirmAlert } from './selectors';
 import BlockDetailPage from '../BlockDetailPage';
 import TransactionDetailPage from '../TransactionDetailPage';
+import socket from '../../utils/socketClient';
+import { BLOCK_CREATED, TRANSACTION_CREATED } from '../../utils/constants';
+import { getWallet } from '../WalletPage/actions';
+import { getHistory } from '../HistoryPage/actions';
 
 export function App({alert, confirmAlert}) {
   const classes = useStyles();
   const globalState = useSelector(state => state.global);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    socket.on(BLOCK_CREATED, () => {
+      dispatch(getWallet());
+      dispatch(getHistory());
+    })
+
+    socket.on(TRANSACTION_CREATED, () => {
+      dispatch(getHistory());
+    })
+
+    return () => {
+     socket.off(BLOCK_CREATED);
+     socket.off(TRANSACTION_CREATED);
+    }
+  }, [])
 
   return (
     <div className={classes.container}>

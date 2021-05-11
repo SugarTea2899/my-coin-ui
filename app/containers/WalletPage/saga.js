@@ -10,18 +10,19 @@ import {
 } from './constants';
 import * as api from '../../apis';
 import {
+  getWallet,
   miningBlock,
   sendTransaction,
   updateMyTransactions,
   updateTransaction,
   updateWallet,
 } from './actions';
-import { LOCAL_STORAGE_PRIVATE_KEY } from '../../utils/constants';
+import { BLOCK_CREATED, LOCAL_STORAGE_PRIVATE_KEY, TRANSACTION_CREATED } from '../../utils/constants';
 import { copyToClipboard } from '../../utils/helpers';
 import { setLoading, updateAlert, updateConfirmAlert } from '../App/actions';
 import { Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { getHistory } from '../HistoryPage/actions';
+import socket from '../../utils/socketClient';
 
 function* getWalletSaga() {
   try {
@@ -73,6 +74,9 @@ function* sendTransactionSaga({ address, amount, dispatch }) {
       onClose: () => dispatch(updateAlert({ open: false })),
     };
 
+    socket.emit(TRANSACTION_CREATED);
+
+    yield put(getWallet());
     yield put(updateAlert(alert));
     yield put(setLoading(false));
   } catch (error) {
@@ -144,6 +148,9 @@ function* miningBlockSaga({ dispatch }) {
         </Typography>
       </>
     );
+
+    socket.emit(BLOCK_CREATED);
+
     const alert = {
       open: true,
       title: 'New Block',
@@ -151,6 +158,7 @@ function* miningBlockSaga({ dispatch }) {
       onClose: () => dispatch(updateAlert({ open: false })),
     };
 
+    yield put(getWallet())
     yield put(updateAlert(alert));
     yield put(setLoading(false));
   } catch (error) {
