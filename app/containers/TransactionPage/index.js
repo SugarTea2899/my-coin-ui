@@ -36,7 +36,7 @@ export const TransactionPage = ({ transactions }) => {
       const startIndex = page * PAGE_SIZE;
       return index >= startIndex && index < startIndex + PAGE_SIZE;
     };
-    setItems(transactions.filter(pagingTransactions));
+    setItems(transactions.reverse().filter(pagingTransactions));
   }, [page]);
 
   return (
