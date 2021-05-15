@@ -58,6 +58,8 @@ const CreateTransaction = ({ open, onClose, onSend }) => {
             if (addressError !== '' || amountError !== '')
               return;
             
+            setAddress('');
+            setAmount('');
             onSend(address, amount);
           }}
           fullWidth
