@@ -35,7 +35,8 @@ export const BlockPage = ({ blocks }) => {
       const startIndex = page * PAGE_SIZE;
       return index >= startIndex && index < startIndex + PAGE_SIZE;
     };
-    setItems(blocks.reverse().filter(pagingBlocks));
+    const _blocks = [...blocks];
+    setItems(_blocks.reverse().filter(pagingBlocks));
   }, [page]);
 
   return (
